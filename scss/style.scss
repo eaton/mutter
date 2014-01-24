@@ -1,0 +1,20 @@
+/* This will change, because for serious. */
+
+@import "compass/reset";
+@import "bourbon";
+@import "bitters/bitters";
+@import "neat";
+
+body {
+	@include outer-container();
+}
+
+header, footer, article {
+	@include span-columns(10);
+	@include shift(1);
+}
+
+article {
+	padding: $column;
+	background-color: #EEE;
+}

@@ -1,0 +1,11 @@
+/.vagrant/
+
+/vendor/
+
+/composer.phar
+
+/composer.lock
+
+/.sass-cache/
+
+/codekit-config.json
