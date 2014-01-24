@@ -13,13 +13,14 @@
 
 <?php
 $time_start = microtime(true);
-$output = shell_exec("rmutt /usr/local/share/rmutt/recipe.rm");
+$output = shell_exec("rmutt ./grammars/drwho.rm");
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 ?>
 
 <article>
-<?php print $output; ?>
+<h2><a href="http://games.usvsth3m.com/drwho">Random Dr. Who Episode</a></h2>
+<p><?php print $output; ?></p>
 </article>
 
 <footer>Time used: <?php print round($time, 4); ?> seconds</footer>
