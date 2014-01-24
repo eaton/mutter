@@ -13,13 +13,13 @@
 
 <?php
 $time_start = microtime(true);
-$output = shell_exec("rmutt ./grammars/drwho.rm");
+$output = shell_exec("rmutt ./grammars/sleepyhollow.rm");
 $time_end = microtime(true);
 $time = $time_end - $time_start;
 ?>
 
 <article>
-<h2><a href="http://games.usvsth3m.com/drwho">Random Dr. Who Episode</a></h2>
+<h2><a href="http://thestake.org/2013/11/04/falling-for-sleepy-hollow-a-new-ichabod-for-a-new-decade/">Sleepy Hollow Episode Generator</a></h2>
 <p><?php print $output; ?></p>
 </article>
 

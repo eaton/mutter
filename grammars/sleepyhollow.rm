@@ -1,0 +1,203 @@
+// Sleepy Hollow Episode generator, snippets pulled from actual Sleepy Hollow
+// episode summaries.
+
+// TODO: Plural, possessive, capitalization, and gender handling. More fragments.
+
+top: episode;
+_:" ";
+
+flavor:
+"Two worlds collide as" |
+"In a shocking turn of events," |
+"In the season finale," |
+"In a two-hour episode,";
+
+protagonist:
+"Ichabod" |
+"Abbie" |
+"Ichabod and Abbie" |
+"The Witnesses" ;
+
+imperative:
+"must" |
+"attempt to" |
+"try to" |
+"help " friendly;
+
+posquest:
+"find" |
+"protect" |
+"locate" |
+"unravel the mysteries of" |
+"decipher" |
+"hide" |
+"rescue" |
+"recover";
+
+negquest: 
+"stop" |
+"delay" |
+"kill" |
+"reveal" |
+"behead" |
+"banish" |
+"deal with";
+
+friendly: 
+"Jenny Mills" |
+"Captain Irving" |
+founder "'s ghost" |
+"Andy Brooks" |
+"Katrina" |
+"The great-great-great-great granddaughter of " founder |
+"Henry Parrish";
+
+location: 
+"Purgatory" |
+"Sleepy Hollow" |
+"England" |
+"The fledgling nation" |
+"Police headquarters" |
+"A Colonial house belonging to " founder;
+
+founder: 
+"George Washington" |
+"John Adams" |
+"Samuel Adams" |
+"Josiah Bartlett" |
+"Carter Braxton" |
+"Charles Carroll" |
+"Samuel Chase" |
+"Abraham Clark" |
+"George Clymer" |
+"William Ellery" |
+"William Floyd" |
+"Benjamin Franklin" |
+"Elbridge Gerry" |
+"Button Gwinnett" |
+"Lyman Hall" |
+"John Hancock" |
+"Benjamin Harrison" |
+"John Hart" |
+"Joseph Hewes" |
+"William Hooper" |
+"Francis Hopkinson" |
+"Samuel Huntington" |
+"Thomas Jefferson" |
+"Francis Lightfoot Lee" |
+"Richard Henry Lee" |
+"Francis Lewis" |
+"Philip Livingston" |
+"Thomas Lynch, Jr." |
+"Thomas McKean" |
+"Arthur Middleton" |
+"Lewis Morris" |
+"Robert Morris" |
+"John Morton" |
+"William Paca" |
+"Robert Treat Paine" |
+"John Penn" |
+"George Read" |
+"Caesar Rodney" |
+"George Ross" |
+"Benjamin Rush" |
+"Edward Rutledge" |
+"Roger Sherman" |
+"James Smith" |
+"Richard Stockton" |
+"Thomas Stone" |
+"George Taylor" |
+"Charles Thomson" |
+"Matthew Thornton" |
+"George Walton" |
+"William Whipple" |
+"William Williams" |
+"James Wilson" |
+"John Witherspoon" |
+"Oliver Wolcott" |
+"George Wythe";
+
+mcguffin:
+"skeleton key" |
+"bible" |
+"lantern" |
+"grave" |
+"glasses" |
+"journal" |
+"tricorn hat" |
+"musket" |
+"secret tomb" |
+"sextant" |
+"walking stick" |
+"skull" |
+"portrait";
+
+antagonist: 
+"King George" |
+"The Sandman" |
+"Moloch" |
+"The Headless Horseman" |
+"The Hessian" |
+"Scarecrow" |
+"Death" |
+"War" |
+"Pestilence" |
+"Famine" |
+"Scarecrow" |
+"Serilda of Abaddon" |
+"an evil witch" |
+"a demon" |
+"Banastre Tarleton" |
+"A traitorous general" |
+"Andy Brooks" |
+"The Demon Ancitif";
+
+attack:
+"tortures" |
+"torments" |
+"stalks" |
+"intimidates" |
+"kills" |
+"possesses";
+
+victim: 
+"the residents of " location |
+"an unidentified boy who turned up in " location |
+"a local mother" |
+"a priest" |
+"several children" |
+"an old friend";
+
+technique: 
+"infiltrating their dreams and turning them into nightmares" |
+"turning their eyes to sand" |
+"climbing through faucets" |
+"turning into birds" |
+"mimicking dead relatives" |
+"whispering lies and half-truths" |
+"destroying " founder "'s " mcguffin;
+
+conjunction: 
+"Meanwhile" |
+"Later" |
+"However" |
+"In part 2" |
+"In a flashback" |
+"In the process";
+
+innerstruggle:
+"encounters a figure from the past" |
+"gets an unexpected visit from " friendly |
+"is visited by " antagonist |
+"questions the meaning of it all" |
+"fears they'll never defeat " antagonist |
+"experiences a vivid flashback" |
+"is haunted by memories the past";
+
+subplot:
+protagonist _ imperative _ (posquest _ (location, friendly, founder "'s " mcguffin, founder), negquest _ antagonist) |
+antagonist _ attack _ victim _ "by" _ technique |
+protagonist _ innerstruggle |
+(friendly, location) _ "faces" _ antagonist ("," _ "who" _ attack _ "by" _ technique){0,1};
+
+episode: flavor{0,1} _ subplot "." _ ((conjunction "," _){0,1} subplot ". "){1,2};
