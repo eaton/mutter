@@ -3,10 +3,11 @@
 
 $script = <<SCRIPT
 apt-get update
+apt-get install -y curl subversion make
 apt-get install -y apache2 php5 libapache2-mod-php5
-apt-get install -y subversion flex bison make libgmp3-dev
+apt-get install -y flex bison libgmp3-dev
 
-svn checkout svn://svn.code.sf.net/p/rmutt/code/trunk rmutt-code
+svn checkout http://svn.code.sf.net/p/rmutt/code/trunk rmutt-code
 cd rmutt-code/rmutt
 make
 make install
