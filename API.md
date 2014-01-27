@@ -6,6 +6,7 @@
 ## Overview
 
 | Method | URL | Action | Version |
+|--------|-----|--------|---------|
 | OPTIONS | /generators | Lists docs and version information for the API | **1.0** |
 | GET | /generators | Lists available generators. Accepts 'category' query filter. | **1.0** |
 | GET | /generators/demo | Returns output from the generator named 'demo' | **1.0** |
