@@ -1,5 +1,7 @@
 {
     "require": {
-        "slim/slim": "2.*"
+        "slim/slim": "2.*",
+        "slim/views": "0.1.*",
+        "entomb/slim-json-api": "dev-master"
     }
 }

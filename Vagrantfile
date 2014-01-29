@@ -3,7 +3,7 @@
 
 $script = <<SCRIPT
 apt-get update
-apt-get install -y curl subversion make
+apt-get install -y curl subversion git make
 apt-get install -y apache2 php5 libapache2-mod-php5
 apt-get install -y flex bison libgmp3-dev
 
@@ -17,6 +17,7 @@ ln -fs /vagrant /var/www
 /etc/init.d/apache2 restart
 
 cd /var/www
+rm composer.lock
 curl -s https://getcomposer.org/installer | php
 php composer.phar install
 
