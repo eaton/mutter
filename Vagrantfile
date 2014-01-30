@@ -12,8 +12,11 @@ cd rmutt-code/rmutt
 make
 make install
 
+sudo sed -i 's/AllowOverride None/AllowOverride All/2' /etc/apache2/sites-enabled/000-default 
+
 rm -rf /var/www
 ln -fs /vagrant /var/www
+a2enmod rewrite
 /etc/init.d/apache2 restart
 
 cd /var/www
