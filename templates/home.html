@@ -1,0 +1,24 @@
+{% extends "page.html" %}
+
+{% block title %}Mutter{% endblock %}
+{% block head %}{{ parent() }}{% endblock %}
+
+{% block hero %}
+  <h1>Mutter: Random Text on Tap</h1>
+{% endblock %}
+
+{% block content %}
+<section>
+<h2>Wait, what the?</h2>
+<p></p>
+</section>
+
+<section>
+<h2></h2>
+{% for item in navigation %}  <article class="{{ item.category }}">
+    <h3><a href="/generators/{{ item.name }}">{{ item.title }}</a></h3>
+    <p>{{ item.description }}</p>
+  </article>{% endfor %}
+</section>
+{% endblock %}
+
