@@ -47,12 +47,12 @@ function invokeGenerator($name, $params = array()) {
 
 /* Simple templated pages */
 
-$app->get('/', function() use($app){
+$app->get('/', 'pageRequest', function() use($app){
   $app->render("home.html");
 });
 
 
-$app->get('/:name', function($name) use($app){
+$app->get('/:name', 'pageRequest', function($name) use($app){
   // Check for a custom template, fall back to the generic one.
   $app->render("generator.html");
 })->conditions(\Slim\Route::getDefaultConditions());
@@ -61,8 +61,6 @@ $app->get('/:name', function($name) use($app){
 /* API handlers */
 
 $app->group('/api', function() use ($app) {
-
-
   /* Returns a list of available generators. */
   $app->get('/', 'apiRequest', function() use($app) {
     $response = array();
@@ -106,10 +104,19 @@ $app->group('/api', function() use ($app) {
 
 });
 
-function apiRequest(){
+function apiRequest() {
   $app = \Slim\Slim::getInstance();
   $app->view(new \JsonApiView());
   $app->add(new \JsonApiMiddleware());
+}
+
+function pageRequest() {
+  $app = \Slim\Slim::getInstance();
+  $view = new \Slim\Views\Twig();
+  $view->parserExtensions = array(
+    new \Slim\Views\TwigExtension(),
+  );
+  $app->view($view);
 }
 
 $app->run();
