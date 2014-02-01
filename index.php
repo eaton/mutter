@@ -1,12 +1,11 @@
 <?php
 require 'vendor/autoload.php';
+$generator_directory = dirname(__FILE__) . "/generators";
 
 \Slim\Route::setDefaultConditions(array(
     'name' => '[a-z]{3,}'
 ));
 $app = new \Slim\Slim();
-
-$generator_directory = dirname(__FILE__) . "/generators";
 
 /* Helper functions and internal code */
 
@@ -14,11 +13,11 @@ function listGenerators() {
   static $generators;
   if (!isset($generators)) {
     $generators = array();
-    $it = new FilesystemIterator();
+    $it = new FilesystemIterator(dirname(__FILE__) . "/generators");
     foreach ($it as $dir) {
       if ($it.isDir()) {
         $name = (string)$it;
-        if (file_exists($generator_directory . "/" . $name . "/info.json")) {
+        if (file_exists(dirname(__FILE__) . "/generators/" . $name . "/info.json")) {
           $generators[$name] = getGeneratorInfo($name);
         }
       }
@@ -28,13 +27,13 @@ function listGenerators() {
 }
 
 function getGeneratorInfo($name) {
-  $filename = $generator_directory . $name . "/info.json";
+  $filename = dirname(__FILE__) . "/generators." . $name . "/info.json";
   $json = file_get_contents($filename);
   return $json;
 }
 
 function invokeGenerator($name, $params = array()) {
-  $file = $generator_directory . "/generators/" . $name . "/main.txt";
+  $file = dirname(__FILE__) . "/generators/" . $name . "/main.txt";
   $command = "rmutt " . $file;
   if (!empty($params)) {
     $command .= " ";
