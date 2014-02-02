@@ -49,28 +49,6 @@ function invokeGenerator($name, $rule = '', $params = array()) {
     return $output;
 }
 
-/* Visitor-facing HTML pages */
-
-$app->get('/', 'pageRequest', function() use($app){
-    $params = array();
-    $params['demo'] = invokeGenerator('rmutt');
-    $params['slogan'] = invokeGenerator('rmutt', 'slogan');
-    $params['generators'] = listGenerators();
-
-    $app->render("home.html", $params);
-});
-
-
-$app->get('/:name', 'pageRequest', function($name) use($app){
-    // Check for a custom template, fall back to the generic one.
-    $info = getGeneratorInfo($name);
-
-    $params = json_decode($info, true);
-    $params['output'] = invokeGenerator($name);
-
-    $app->render("generator.html", $params);
-})->conditions(\Slim\Route::getDefaultConditions());
-
 
 /* API handlers */
 
@@ -117,6 +95,28 @@ $app->group('/api', function() use ($app) {
   })->conditions(\Slim\Route::getDefaultConditions());
 
 });
+
+/* Visitor-facing HTML pages */
+
+$app->get('/', 'pageRequest', function() use($app){
+    $params = array();
+    $params['demo'] = invokeGenerator('rmutt');
+    $params['slogan'] = invokeGenerator('rmutt', 'slogan');
+    $params['generators'] = listGenerators();
+
+    $app->render("home.html", $params);
+});
+
+
+$app->get('/:name', 'pageRequest', function($name) use($app){
+    // Check for a custom template, fall back to the generic one.
+    $info = getGeneratorInfo($name);
+
+    $params = json_decode($info, true);
+    $params['output'] = invokeGenerator($name);
+
+    $app->render("generator.html", $params);
+})->conditions(\Slim\Route::getDefaultConditions());
 
 function apiRequest() {
   $app = \Slim\Slim::getInstance();
