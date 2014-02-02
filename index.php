@@ -1,6 +1,5 @@
 <?php
 require 'vendor/autoload.php';
-$generator_directory = dirname(__FILE__) . "/generators";
 
 \Slim\Route::setDefaultConditions(array(
     'name' => '[a-z]{3,}'
@@ -10,50 +9,66 @@ $app = new \Slim\Slim();
 /* Helper functions and internal code */
 
 function listGenerators() {
-  static $generators;
-  if (!isset($generators)) {
-    $generators = array();
-    $it = new FilesystemIterator(dirname(__FILE__) . "/generators");
-    foreach ($it as $dir) {
-      if ($it.isDir()) {
-        $name = (string)$it;
-        if (file_exists(dirname(__FILE__) . "/generators/" . $name . "/info.json")) {
-          $generators[$name] = getGeneratorInfo($name);
+    static $generators;
+        if (!isset($generators)) {
+            $generators = array();
+            $it = new FilesystemIterator(dirname(__FILE__) . "/generators");
+            foreach ($it as $dir) {
+                if ($it->isDir()) {
+                    $name = (string)$it;
+                if (file_exists(dirname(__FILE__) . "/generators/" . $name . "/info.json")) {
+                    $info = json_decode(getGeneratorInfo($name));
+                    if (empty($info->hidden)) {
+                        $info->name = $name;
+                        $generators[$name] = $info;
+                    }
+                }
+            }
         }
-      }
     }
-  }
-  return $generators;
+    return $generators;
 }
 
 function getGeneratorInfo($name) {
-  $filename = dirname(__FILE__) . "/generators." . $name . "/info.json";
-  $json = file_get_contents($filename);
-  return $json;
+    $filename = dirname(__FILE__) . "/generators/" . $name . "/info.json";
+    $json = file_get_contents($filename);
+    return $json;
 }
 
-function invokeGenerator($name, $params = array()) {
-  $file = dirname(__FILE__) . "/generators/" . $name . "/main.rm";
-  $command = "rmutt " . $file;
-  if (!empty($params)) {
-    $command .= " ";
-  }
-  $command = escapeshellcmd($command);
-  $output = shell_exec($command);
-  
-  return $output;
+function invokeGenerator($name, $rule = '', $params = array()) {
+    $file = dirname(__FILE__) . "/generators/" . $name . "/main.rm";
+    $command = "rmutt " . $file;
+    if (!empty($rule)) {
+        $command .= " -e " . $rule;
+    }
+    foreach ($params as $key => $val) {
+        $command .= " -b $key=$val";
+    }
+    $command = escapeshellcmd($command);
+    $output = shell_exec($command);
+    return $output;
 }
 
 /* Visitor-facing HTML pages */
 
 $app->get('/', 'pageRequest', function() use($app){
-  $app->render("home.html");
+    $params = array();
+    $params['demo'] = invokeGenerator('rmutt');
+    $params['slogan'] = invokeGenerator('rmutt', 'slogan');
+    $params['generators'] = listGenerators();
+
+    $app->render("home.html", $params);
 });
 
 
 $app->get('/:name', 'pageRequest', function($name) use($app){
-  // Check for a custom template, fall back to the generic one.
-  $app->render("generator.html");
+    // Check for a custom template, fall back to the generic one.
+    $info = getGeneratorInfo($name);
+
+    $params = json_decode($info, true);
+    $params['output'] = invokeGenerator($name);
+
+    $app->render("generator.html", $params);
 })->conditions(\Slim\Route::getDefaultConditions());
 
 

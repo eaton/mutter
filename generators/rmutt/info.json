@@ -1,6 +1,6 @@
 {
-    "title": "rmutt examples",
-    "description": "A lightweight wrapper for rmutt's demo grammars.",
+    "title": "RMutt Examples",
+    "description": "A lightweight wrapper for rmutt's demo grammars: outputs out a few random sentences by default.",
     "category": "demo",
     "rules": ["password", "url", "sentence", "slogan" ]
 }

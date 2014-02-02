@@ -1,5 +1,5 @@
 {
   "title": "Dr. Who",
-  "description": "Spits out randomized episodes of Dr. Who. Ripped from http://games.usvsth3m.com/drwho/drwho.js as an example of the rmutt grammar format.",
-  "category": "episodes",
+  "description": "An RMutt port of UsVsThem.com's Dr. Who generator used to demonstrate the grammar format.",
+  "category": "episodes"
 }

@@ -4,22 +4,19 @@
 {% block head %}{{ parent() }}{% endblock %}
 
 {% block hero %}
-  <h1>Mutter: Random Text on Tap</h1>
+  <h1>Mutter: {{ slogan }}</h1>
 {% endblock %}
 
 {% block content %}
-
 <section>
-<h2>Wait, what the?</h2>
-<p></p>
-<a href="https://github.com/eaton/mutter"><img style="position: absolute; top: 0; right: 0; border: 0;" src="https://s3.amazonaws.com/github/ribbons/forkme_right_gray_6d6d6d.png" alt="Fork me on GitHub"></a>
+  <p>Randomly-generated text is hard: you should let someone else do the work! <a href="http://github.com/eaton/mutter">Mutter</a> is a simple PHP wrapper around <a href="http://www.schneertz.com/rmutt">rmutt</a>, a swanky little utility that uses grammar-definition files to generate structurally meaningful text.</p>
 </section>
 
 <section>
-<h2></h2>
-{% for item in navigation %}  <article class="{{ item.category }}">
-    <h3><a href="/generators/{{ item.name }}">{{ item.title }}</a></h3>
-    <p>{{ item.description }}</p>
-  </article>{% endfor %}
+    <h2>Click these to make fun-times</h2>
+    <dl>
+{% for item in generators %}        <dt class="{{ item.category }}"><a href="/{{ item.name }}">{{ item.title }}</a></dt>
+        <dd>{{ item.description }}</dd>
+{% endfor %}
 </section>
 {% endblock %}

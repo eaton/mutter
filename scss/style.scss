@@ -6,15 +6,17 @@
 @import "neat";
 
 body {
-	@include outer-container();
+  @include outer-container();
 }
 
-header, footer, article {
-	@include span-columns(10);
-	@include shift(1);
+h1, h2, h3, h4, h5, strong, b {
+  font-weight: bold;
 }
 
-article {
-	padding: $column;
-	background-color: #EEE;
+i, em, cite, blockquote {
+  font-style: italic;
+}
+
+header, section, footer {
+  padding: 3em 0 0 0;
 }
