@@ -36,15 +36,15 @@ function getGeneratorInfo($name) {
 }
 
 function invokeGenerator($name, $rule = '', $params = array()) {
-    $file = dirname(__FILE__) . "/generators/" . $name . "/main.rm";
-    $command = "rmutt " . $file;
+    $dir = dirname(__FILE__) . "/generators/" . $name;
+    $command = "rmutt main.rm";
     if (!empty($rule)) {
         $command .= " -e " . $rule;
     }
     foreach ($params as $key => $val) {
         $command .= " -b $key=$val";
     }
-    $command = escapeshellcmd($command);
+    $command = "cd $dir; " . escapeshellcmd($command);
     $output = shell_exec($command);
     return $output;
 }
