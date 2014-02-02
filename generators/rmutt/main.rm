@@ -1,0 +1,15 @@
+#include "password.rm"
+#include "sentence.rm"
+#include "slogan.rm"
+#include "url.rm"
+
+demo: "<dl>"
+      "  <dt>Random password:</dl><dd>" password "</dd>"
+      "  <dt>Gibberish sentence:</dl><dd>" sentence "</dd>"
+      "  <dt>Auto-slogan:</dl><dd>" slogan "</dd>"
+      "  <dt>Bogus URL:</dl><dd>" url "</dd>"
+      "</dl>";
+
+// meaningful aliases for the sub-grammars
+sentence: sentence.s;
+url: url.url;

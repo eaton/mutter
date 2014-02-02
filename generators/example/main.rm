@@ -1,6 +1,0 @@
-// Example grammar that exercises various rmutt features.
-
-MAIN:
-	"This is example text." |
-	"This is text that demonstrates the grammar." |
-	"This text is an example.";

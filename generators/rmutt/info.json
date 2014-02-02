@@ -1,0 +1,6 @@
+{
+    "title": "rmutt examples",
+    "description": "A lightweight wrapper for rmutt's demo grammars.",
+    "category": "demo",
+    "rules": ["password", "url", "sentence", "slogan" ]
+}
