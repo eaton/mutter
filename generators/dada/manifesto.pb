@@ -5,7 +5,7 @@
 
 S: prologue body epilogue ;
 
-prologue: { pointnum=1 } ;
+prologue: "" ;
 
 body: title points ;
 
@@ -30,17 +30,14 @@ points: points points point
 	| point point 
 ;
 
-point: $pointnum ". " statement "\n" 
-	{ 
-	pointnum=pointnum+1
-	} ;
+point:  "* " statement "\n";
 
 statement: big-thing " is dead."
 	| big-thing " is dead; " is-dead-explanation
 	| big-thing " is a myth."
 	| big-thing " is an illusion."
-	| attribute-paradox-1(attribute)
-	| thing-paradox-1(abstract-noun)
+	| attribute-paradox-1[attribute]
+	| thing-paradox-1[abstract-noun]
 	| "there is no " nonbeable ". "
 	| "those who " do-silly-thing " are " plural-derog-noun ". "
 	| "we are all " what-we-are "."
@@ -79,12 +76,8 @@ plural-derog-noun: "fools" | "idiots"
 ;
 
 prepend-a-or-an:
-	"a*" -> "^"/"an "
-	"e*" -> "^"/"an "
-	"i*" -> "^"/"an "
-	"o*" -> "^"/"an "
-	"u*" -> "^"/"an "
-	"*"  -> "^"/"a "
+	/^([aeiouAEIOU].*)/an \1/
+	/^([^aeiouAEIOU].*)/a \1/
 ;
 
 nonbeable: "escape" | "God" | "Santa Claus" | "free lunch" | "salvation"
@@ -98,7 +91,7 @@ endless-thing-2: "monotony" | "recursion" | "redundancy"
 
 // paradoxes, paradoys and paradozzes
 
-thing-paradox-1(thing): thing " is the " maximum-adj " " opposite(thing) ". "
+thing-paradox-1[thing]: thing " is the " maximum-adj " " opposite[thing] ". "
 ;
 
 maximum-adj: "greatest" | "first" | "biggest" | "original" 
@@ -106,28 +99,28 @@ maximum-adj: "greatest" | "first" | "biggest" | "original"
 
 abstract-noun: "truth" ;
 
-attribute-paradox-1(attribute): 
+attribute-paradox-1[attribute]:
 	"the most " attribute " thing is the " completely-synonym
-	" " opposite(attribute) 
+	" " opposite[attribute]
 	"."
 	| "there is nothing more " attribute " than that which is "
-	opposite(attribute) "."
+	opposite[attribute] "."
 ;
 
 completely-synonym: "completely" | "totally" | "absolutely" ;
 
 attribute: "true" | "meaningful" | "false" ;
 
-opposite(word): @word>opposite-map>append-synonyms ;
+opposite[word]: word>opposite-map>append-synonyms ;
 
 opposite-map:
-	"true" <-> "false"
-	"meaningful" <-> "absurd"
-	"truth" <-> "lie"
+	"true" % "false"
+	"meaningful" % "absurd"
+	"truth" % "lie"
 ;
 
 append-synonyms:
-	".*" -> "$"/"-synonyms" 
+	/"(.*)"/ "\1-synonyms"/
 ;
 
 true-synonyms: "true";
