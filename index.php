@@ -4,7 +4,7 @@ require 'vendor/autoload.php';
 \Slim\Route::setDefaultConditions(array(
     'name' => '[a-z]{3,}'
 ));
-$app = new \Slim\Slim();
+$app = new \Slim\Slim(array('templates.path' => '.'));
 
 /* Helper functions and internal code */
 
@@ -31,8 +31,13 @@ function listGenerators() {
 
 function getGeneratorInfo($name) {
     $filename = dirname(__FILE__) . "/generators/" . $name . "/info.json";
-    $json = file_get_contents($filename);
-    return $json;
+    if (file_exists($filename)) {
+      $json = file_get_contents($filename);
+      return $json;
+    }
+    else {
+      // error stuffs
+    }
 }
 
 function invokeGenerator($name, $rule = '', $params = array()) {
@@ -100,22 +105,30 @@ $app->group('/api', function() use ($app) {
 
 $app->get('/', 'pageRequest', function() use($app){
     $params = array();
-    $params['demo'] = invokeGenerator('rmutt');
-    $params['slogan'] = invokeGenerator('rmutt', 'slogan');
     $params['generators'] = listGenerators();
 
-    $app->render("home.html", $params);
+    $app->render("templates/home.html", $params);
 });
 
 
 $app->get('/:name', 'pageRequest', function($name) use($app){
     // Check for a custom template, fall back to the generic one.
     $info = getGeneratorInfo($name);
-
-    $params = json_decode($info, true);
-    $params['output'] = invokeGenerator($name);
-
-    $app->render("generator.html", $params);
+    if (empty($info)) {
+      $app->notFound();
+    }
+    else {
+      $params = json_decode($info, true);
+      $params['output'] = invokeGenerator($name);
+      $template = "templates/generator.html";
+      
+      $alt_dir = dirname(__FILE__) . "/generators/$name";
+      if (file_exists($alt_dir . "/template.html")) {
+        $template = "generators/$name/template.html";
+      }
+      
+      $app->render($template, $params);
+    }
 })->conditions(\Slim\Route::getDefaultConditions());
 
 function apiRequest() {

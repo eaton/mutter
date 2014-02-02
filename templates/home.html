@@ -1,15 +1,17 @@
-{% extends "page.html" %}
+{% extends "templates/page.html" %}
 
 {% block title %}Mutter{% endblock %}
 {% block head %}{{ parent() }}{% endblock %}
 
 {% block hero %}
-  <h1>Mutter: {{ slogan }}</h1>
+  <h1>Mutter: Rigorous Random Text</h1>
 {% endblock %}
 
 {% block content %}
 <section>
-  <p>Randomly-generated text is hard: you should let someone else do the work! <a href="http://github.com/eaton/mutter">Mutter</a> is a simple PHP wrapper around <a href="http://www.schneertz.com/rmutt">rmutt</a>, a swanky little utility that uses grammar-definition files to generate structurally meaningful text.</p>
+  <p>Generating gibberish is easy. Generating randomized-but-meaningful text? Not so much. Whether you're creating a Dr. Who plot generator or a novelty Lorem Ipsum site, ironing out the inherent structures of the text you're working with &mdash; and writing code that can output those structures fluently &mdash; is tough work.</p>
+  <p>Fortunately, enterprising developers have already done the hard work. <a href="http://www.schneertz.com/rmutt">rmutt</a> is a UNIX utility that takes "grammar definitions" and uses them to spit out random text. Grammars can be simple (a list of strings that are chosen at random) or complex (deeply nested conditional rules to handle tenses, genders, pronouns, etc). Once a grammar is written, though, rmutt can generate crazy stuff from it in the blink of an eye.</p>
+  <p><a href="http://github.com/eaton/mutter">Mutter</a>, for its part, is a lightweight REST wrapper around rmutt and a bundle of fun grammar definitions that show off its capabilities. If you want to find out what <a href="/supernatural">Sam and Dean</a> are up to, it can help. If you want to use it as a turnkey starting point for your own text generator, <a href="http://github.com/eaton/mutter">check out the source on Github.</a></p>
 </section>
 
 <section>

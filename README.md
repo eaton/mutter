@@ -14,7 +14,7 @@ There's a Vagrantfile that spins up a box with rmutt and all the fixings: for no
 
 ## To Do
 
-* REST Interface
+* ~REST Interface~
 * Variable mapping (pass in parameters for the grammar)
 * Sample grammars
 * Pretty front end
