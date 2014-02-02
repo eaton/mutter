@@ -33,7 +33,7 @@ function getGeneratorInfo($name) {
 }
 
 function invokeGenerator($name, $params = array()) {
-  $file = dirname(__FILE__) . "/generators/" . $name . "/main.txt";
+  $file = dirname(__FILE__) . "/generators/" . $name . "/main.rm";
   $command = "rmutt " . $file;
   if (!empty($params)) {
     $command .= " ";
@@ -44,7 +44,7 @@ function invokeGenerator($name, $params = array()) {
   return $output;
 }
 
-/* Simple templated pages */
+/* Visitor-facing HTML pages */
 
 $app->get('/', 'pageRequest', function() use($app){
   $app->render("home.html");
@@ -94,7 +94,7 @@ $app->group('/api', function() use ($app) {
 
   /* Returns the main grammar definition for a generator. */
   $app->get('/:name/grammar', 'apiRequest', function($name) use($app) {
-    $filename = "generators/" . $name . "/main.txt";
+    $filename = "generators/" . $name . "/main.rm";
     $definition = file_get_contents($filename);
     $app->render(200, array(
       'grammar' => $definition,
@@ -112,9 +112,6 @@ function apiRequest() {
 function pageRequest() {
   $app = \Slim\Slim::getInstance();
   $view = new \Slim\Views\Twig();
-  $view->parserExtensions = array(
-    new \Slim\Views\TwigExtension(),
-  );
   $app->view($view);
 }
 
