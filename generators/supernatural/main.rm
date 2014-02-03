@@ -3,7 +3,7 @@
 // A couple of different core plots pop up in Supernatural:
 // - Monster of the week episodes
 // - Lone wolf episodes, where one brother hunts alone
-// - Comic episodes, where the brothers are trapped in a zany fantasy world
+// - Displacement episodes, where the brothers are trapped in another time or alternate reality
 // - McGuffin episodes, where the brothers search for a relic, information, or an old friend
 // - Timebomb episodes, where the brothers must prevent a disaster
 
@@ -12,19 +12,20 @@
 // - Dark secrets, where one brother hides something from the other
 // - Revelations, where the brothers discover personal or family information
 
+// TEST: ((SUBPLOT ".\n")> CAPITALIZE){10};
 
-EPISODE: (PLOT > CAPITALIZE) ". " (((CONJUNCTION " ")? SUBPLOT ".")  > CAPITALIZE)? "\n";
+EPISODE: (PLOT > CAPITALIZE) ". " (((CONJUNCTION " ")? SUBPLOT ".")  > CAPITALIZE) "\n";
 
-PLOT: PLOT-MONSTER, PLOT-LONER, PLOT-COMIC, PLOT-MCGUFFIN, PLOT-TIMEBOMB;
+PLOT: PLOT-MONSTER 3, PLOT-LONER 2, PLOT-MCGUFFIN 2, PLOT-TIMEBOMB, PLOT-DISPLACEMENT;
 PLOT-MONSTER:
   "monster of the week"
 ;
 PLOT-LONER:
   (B1 = BROTHER)
   (B2 = B1 > OTHER-BROTHER)
-  "lone wolf plot"
+  (B1 "-centric lone wolf plot")
 ;
-PLOT-COMIC:
+PLOT-DISPLACEMENT:
   BROTHERS
   (" are trapped in", " are transported to", " appear in", " wake up in") " " 
   (
@@ -36,8 +37,8 @@ PLOT-COMIC:
     "the 1800s", "the old west", "the 1950s", "the distant past"
   )
   (
-    (", and their only hope for escape is " (MCGUFFIN, UNTRUSTWORTHY))?
-  )
+    ", and their only hope for escape is " (MCGUFFIN, UNTRUSTWORTHY)
+  )?
 ;
 PLOT-MCGUFFIN:
   "find the mcguffin"
@@ -46,35 +47,50 @@ PLOT-TIMEBOMB:
   "stop the disaster"
 ;
 
-
-SUBPLOT: SUBPLOT-WAR, SUBPLOT-SECRET, SUBPLOT-REVELATION;
+SUBPLOT: SUBPLOT-SECRET 2, SUBPLOT-WAR, SUBPLOT-REVELATION;
 SUBPLOT-WAR:
-  "creatures are fighting"
+  (BOSS " prepares ", GROUP " prepare ") (("to invade ", "for the invasion of ", "to defend ") LOCATION-SUPERNATURAL),
+  UNTRUSTWORTHY " uses " (BROTHERS, BROTHER) " as leverage over " GROUP,
+  UNTRUSTWORTHY " " ("double-crosses", "betrays", "steals " MCGUFFIN " from") " " GROUP (" and contacts " ALLY " for help")?,
+  ((ANGEL, DEMON) " takes over", GROUP " take over") " " LOCATION-GENERIC > PREPEND-A-OR-AN (" to prepare for " DISASTER)
 ;
 SUBPLOT-SECRET:
   (B1 = BROTHER)
   (B2 = (B1 > OTHER-BROTHER))
-  (B1 " voices his suspicions about " B2 " to " ALLY,
-  B1 " suspects " B2 " is hiding the truth")
+  (
+    B1 " shares his suspicions about " B2 " with " (ALLY 2, HUNTER) (", who immediately goes missing")?,
+    B1 " suspects " B2 " is hiding " ("something" 2, (("the truth about ", "a relationship with ") (DEMON, CREATURE-NAMED, BOSS))),
+    B1 "'s behavior becomes increasingly erratic" (", and " B2 " contacts " (ALLY, HUNTER) " for help")?,
+    B1 " searches " B2 "'s room for clues to his behavior",
+    B1 " confronts " B2 " with evidence that he " SECRET,
+    B1 " confesses that he " SECRET (", and " B2 " leaves for " CITY)?,
+    B1 " overhears " B2 "'s conversation with " UNTRUSTWORTHY,
+    (ALLY 2, HUNTER) " sends " B1 " troubling news about " B2,
+    (ALLY 2, HUNTER) " helps " B1 " hide the fact that he " SECRET
+  )
 ;
 SUBPLOT-REVELATION:
-  "they learn something"
+  BROTHERS " " ("suspect", "learn", "discover") " " ALLY
+    (" has become " CREATURE > PREPEND-A-OR-AN, " is " ("in league with", "sheltering", "helping", "secretly", "sharing information with") " " (DEMON, CREATURE-NAMED)),
+  BROTHERS " find " MCGUFFIN " belonging to their " ("mother", "father", "uncle", "grandfather")
 ;
-
 
 // Here's the meat.
 
 BROTHER: "Sam", "Dean";
 OTHER-BROTHER:
-  "Sam" % "Dean"
-  "Dean" % "Sam"
+  "Dean" % "S"
+  "Sam" % "D"
+  "S" % "Sam"
+  "D" % "Dean"
 ;
-BROTHERS: "Sam and Dean", "the Winchesters", "Dean and Sam";
-ALLY: "Castiel", "Bobby", "Charlie", "Chuck", "Becky", "Benny";
+BROTHERS: "Sam and Dean" 2, "the Winchesters", "Dean and Sam";
+ALLY: "Castiel" 4, "Bobby" 4, "Kevin" 2, "Charlie", "Chuck", "Becky", "Benny";
 HUNTER: "Garth", "Ellen", "Jo", "Ash", "Rufus", "Jody";
 UNTRUSTWORTHY: "Ruby", "Crowley", "Metatron", "Naomi";
 
-LOCATION-GENERIC: ("Biggerson's Restaurant", "small rural town", "diner", "elementary school", "office", "abandoned house", "grocery store", "mall", "neighborhood", "warehouse", "barbershop", "bar") > PREPEND-A-OR-AN;
+LOCATION-SUPERNATURAL: "Heaven", "Hell", "Purgatory", "Valhalla", "Hades";
+LOCATION-GENERIC: "Biggerson's Restaurant", "small rural town", "diner", "elementary school", "office", "abandoned house", "grocery store", "mall", "neighborhood", "warehouse", "barbershop", "bar";
 LOCATION-SPECIFIC: "the Impala", "Bobby's house", "the Bunker";
 CITY: "Lawrence, Kansas", "Chicago", "New York", "New Orleans", "San Jose", "Tijuana";
 
@@ -82,15 +98,19 @@ BOSS: "Lucifer", "Azazel", "Raphael";
 ARCHANGEL: "Gabriel", "Raphael", "Michael";
 ANGEL: "Gabriel", "Uriel", "Zachariah", "Balthazar", "Naomi", "Metatron", "Ezekiel", "Malachi";
 DEMON: "Azazel", "Meg", "Ruby", "Lilith", "Samhain", "Alastair", "Crowley", "Abaddon";
+GROUP: "the Angels", "the Demons", "the Men of Letters", "the Knights of Hell", "the Archangels";
 
 CREATURE: "Alpha", "banshee", "chupacabra", "changeling", "clown", "djinn", "doppleganger", "dragon", "elf", "fairy", "giant spider", "ghost", "ghoul", "golem", "gorilla-wolf", "hellhound", "kitsune", "khan worm", "sea monster", "leprechaun", "lamia", "okami", "poltergeist", "Reaper", "revenant", "rugaru", "shapeshifter", "spook", "skinwalker", "succubus", "unicorn", "vampire", "water spirit", "wendigo", "werewolf", "wraith", "zombie";
 CREATURE-NAMED: "the Tooth Fairy", "Mr. Hyde", "the Whore of Babylon", "Spring Heeled Jack", "Jack the Ripper", "Krampus", "Dracula", "Death";
-MCGUFFIN: "a journal", "the Colt";
+MCGUFFIN: "a journal", "the Colt", "the demon knife", "a saint's skull", "an old family photo", "a magic ring", "a cursed mirror";
 CLUE: "ectoplasm", "EMF reading", "spirit echoes", "mysterious footprint", "journal entry";
 
 DISASTER: "the Apocalypse", "Ragnarok", "an earthquake", "a flood", "the end of the world", "the death of " ALLY, "a plague of " CREATURE > PLURALIZE;
-CONJUNCTION: ("meanwhile", "in " CITY, "nearby", "later", "in a flashback", "in a dream") ",";
+CONJUNCTION: ("meanwhile", "in " CITY, "nearby", "later", "in a flashback", "in a dream", "while on a hunt") ",";
 
+SECRET: "is a clone", "is possessed", "is drinking demon blood", "killed " ALLY;
+
+// Swap out a full name every once in a while to liven things up.
 FULLNAME: 
   "Sam" % "Sam Winchester"
   "Dean" % "Dean Winchester"
@@ -100,16 +120,19 @@ FULLNAME:
   "Chuck" % "Chuck Shirley"
 ;
 
+// Might kill this later, but it's a handy helper.
 PREPEND-A-OR-AN:
   /^([aeiouAEIOU].*)/an \1/
   /^([^aeiouAEIOU].*)/a \1/
 ;
 
+// Pluralizing succubusses is no picnic, my friends.
 PLURALIZE:
-  /(.*)wolf/\1wolves/
+  /(.*)wolf/\1wolve/
+  /(.*)y/\1ie/
+  /elf/elve/
+  /(.*[^s])/\1s/
   /(.*)us/\1i/
-  /(.*)y/\1ies/
-  /(.*)/\1s/
 ;
 
 CAPITALIZE:
