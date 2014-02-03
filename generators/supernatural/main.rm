@@ -11,15 +11,26 @@
 // - Wars, where demons or angels battle each other
 // - Dark secrets, where one brother hides something from the other
 // - Revelations, where the brothers discover personal or family information
-
-// TEST: ((SUBPLOT ".\n")> CAPITALIZE){10};
+// - Flavor, where Sam and Dean pursue an unrelated hobby or argument
 
 EPISODE: (PLOT > CAPITALIZE) ". " (((CONJUNCTION " ")? SUBPLOT ".")  > CAPITALIZE) "\n";
 
-PLOT: PLOT-MONSTER 3, PLOT-LONER 2, PLOT-MCGUFFIN 2, PLOT-TIMEBOMB, PLOT-DISPLACEMENT;
+// Primary plots
+
+PLOT: PLOT-MONSTER, PLOT-DISPLACEMENT;
 PLOT-MONSTER:
-  "monster of the week"
+  (CREATURE > PREPEND-A-OR-AN, CREATURE-NAMED) " "
+    (CREATURE-VICTIM-ACTION > PLURALIZE " " VICTIM > PLURALIZE, CREATURE-VICTIM-ACTION > PLURALIZE " " VICTIM > PREPEND-A-OR-AN)
+    (" and " PLOT-MONSTER-RESPONSE)?,
+  "When " VICTIM > PLURALIZE " from " LOCATION-GENERIC > PREPEND-A-OR-AN " begin to " FATE ", "
+    BROTHERS " suspect " CREATURE > PREPEND-A-OR-AN
 ;
+PLOT-MONSTER-RESPONSE:
+  BROTHERS " " ("investigate", "search for clues", "follow " CLUE > PREPEND-A-OR-AN),
+  (BROTHER, BROTHER > FULLNAME, HUNTER > FULLNAME) " tracks " CLUE > PLURALIZE " to the source",
+  BROTHERS " pose as " IDENTITY > PLURALIZE " to get closer"
+;
+
 PLOT-LONER:
   (B1 = BROTHER)
   (B2 = B1 > OTHER-BROTHER)
@@ -27,7 +38,7 @@ PLOT-LONER:
 ;
 PLOT-DISPLACEMENT:
   BROTHERS
-  (" are trapped in", " are transported to", " appear in", " wake up in") " " 
+  (" are trapped in", " are transported to", " wake up in") " "
   (
     (
       ("a soap opera", "a sitcom", "a police procedural", "a romantic comedy") " " 
@@ -47,7 +58,10 @@ PLOT-TIMEBOMB:
   "stop the disaster"
 ;
 
-SUBPLOT: SUBPLOT-SECRET 2, SUBPLOT-WAR, SUBPLOT-REVELATION;
+
+// Secondary sub-plots
+
+SUBPLOT: SUBPLOT-SECRET 2, SUBPLOT-WAR, SUBPLOT-REVELATION, SUBPLOT-FLAVOR;
 SUBPLOT-WAR:
   (BOSS " prepares ", GROUP " prepare ") (("to invade ", "for the invasion of ", "to defend ") LOCATION-SUPERNATURAL),
   UNTRUSTWORTHY " uses " (BROTHERS, BROTHER) " as leverage over " GROUP,
@@ -71,22 +85,30 @@ SUBPLOT-SECRET:
 ;
 SUBPLOT-REVELATION:
   BROTHERS " " ("suspect", "learn", "discover") " " ALLY
-    (" has become " CREATURE > PREPEND-A-OR-AN, " is " ("in league with", "sheltering", "helping", "secretly", "sharing information with") " " (DEMON, CREATURE-NAMED)),
-  BROTHERS " find " MCGUFFIN " belonging to their " ("mother", "father", "uncle", "grandfather")
+    (" has " ("become", "married", "captured") " " CREATURE > PREPEND-A-OR-AN, " is " ("in league with", "sheltering", "helping", "secretly", "sharing information with") " " (DEMON, CREATURE-NAMED)),
+  BROTHERS " find " MCGUFFIN-GENERIC " belonging to their " ("mother", "father", "uncle", "grandfather"),
+  (B1 = BROTHER)
+    (B2 = B1 > OTHER-BROTHER)
+    (B1 " " ("finds", "locates", "uncovers a clue about") " " MCGUFFIN-SPECIFIC (", but " B2 " suspects it's a fake")?)
+;
+SUBPLOT-FLAVOR:
+  BROTHER " tries to find "
+    ("parts to fix the Impala", "ingredients for his favorite pie", "an old comic book", "a childhood friend"),
+  "Sam comes home with "
+    ("a puppy", "a terrible haircut", "too many hamburgers"),
+  "Dean discovers "
+    ("the Home Shopping Network", "hummus", "curling", "Pokémon", "fenaissance faires", "the Decemberists"),
+  BROTHERS " " ("fight", "come to blows", "feud", "give each other the silent treatment") " over "
+    ("a beautiful waitress", "the remote control", "the last jar of Nutella", "the comfy bed", "matching jackets")
 ;
 
-// Here's the meat.
+// Lots of filler nouns, verbs, and so on.
 
 BROTHER: "Sam", "Dean";
-OTHER-BROTHER:
-  "Dean" % "S"
-  "Sam" % "D"
-  "S" % "Sam"
-  "D" % "Dean"
-;
+OTHER-BROTHER: "Dean" % "S" "Sam" % "D" "S" % "Sam" "D" % "Dean";
 BROTHERS: "Sam and Dean" 2, "the Winchesters", "Dean and Sam";
 ALLY: "Castiel" 4, "Bobby" 4, "Kevin" 2, "Charlie", "Chuck", "Becky", "Benny";
-HUNTER: "Garth", "Ellen", "Jo", "Ash", "Rufus", "Jody";
+HUNTER: "Garth", "Ellen", "Jo", "Ash", "Rufus", "Sheriff Mills";
 UNTRUSTWORTHY: "Ruby", "Crowley", "Metatron", "Naomi";
 
 LOCATION-SUPERNATURAL: "Heaven", "Hell", "Purgatory", "Valhalla", "Hades";
@@ -100,43 +122,34 @@ ANGEL: "Gabriel", "Uriel", "Zachariah", "Balthazar", "Naomi", "Metatron", "Ezeki
 DEMON: "Azazel", "Meg", "Ruby", "Lilith", "Samhain", "Alastair", "Crowley", "Abaddon";
 GROUP: "the Angels", "the Demons", "the Men of Letters", "the Knights of Hell", "the Archangels";
 
-CREATURE: "Alpha", "banshee", "chupacabra", "changeling", "clown", "djinn", "doppleganger", "dragon", "elf", "fairy", "giant spider", "ghost", "ghoul", "golem", "gorilla-wolf", "hellhound", "kitsune", "khan worm", "sea monster", "leprechaun", "lamia", "okami", "poltergeist", "Reaper", "revenant", "rugaru", "shapeshifter", "spook", "skinwalker", "succubus", "unicorn", "vampire", "water spirit", "wendigo", "werewolf", "wraith", "zombie";
+CREATURE: "Alpha " CREATURE, "banshee", "chupacabra", "changeling", "clown", "djinn", "doppleganger", "dragon", "elf", "fairy", "giant spider", "ghost" 4, "ghoul", "golem", "gorilla-wolf", "hellhound", "kitsune", "khan worm", "sea monster", "leprechaun", "lamia", "okami", "poltergeist", "Reaper", "revenant", "rugaru", "shapeshifter", "spook", "skinwalker", "succubus", "unicorn", "vampire" 4, "water spirit", "wendigo", "werewolf" 4, "wraith", "zombie";
 CREATURE-NAMED: "the Tooth Fairy", "Mr. Hyde", "the Whore of Babylon", "Spring Heeled Jack", "Jack the Ripper", "Krampus", "Dracula", "Death";
-MCGUFFIN: "a journal", "the Colt", "the demon knife", "a saint's skull", "an old family photo", "a magic ring", "a cursed mirror";
-CLUE: "ectoplasm", "EMF reading", "spirit echoes", "mysterious footprint", "journal entry";
+CREATURE-LOCATION-ACTION: "terrorize", "infiltrate", "haunt", "victimize";
+VICTIM: "father", "mother", "kid", "newborn baby", "bartender", "drifter", "local celebrity";
+CREATURE-VICTIM-ACTION: "kill", "kidnap", "terrorize", "devour", "hunt";
+
+MCGUFFIN: MCGUFFIN-SPECIFIC, MCGUFFIN-GENERIC;
+MCGUFFIN-GENERIC: ("journal", "saint's skull", "old family photo", "magic ring", "cursed mirror", "rare Enochian sigil", "powerful spell", "fragment of the true Cross") > PREPEND-A-OR-AN;
+MCGUFFIN-SPECIFIC: "the Colt", "the demon knife", "Moses' staff", "Death's scythe", "the Key of Solomon", "the Holy Grail";
+
+CLUE: "ectoplasm", "EMF reading", "spirit echo", "mysterious footprint", "pile of ash", "blood stain", "journal entry", "old newspaper article";
+PROTECTION: "sigil", "spell", "Enochian chant", "anti-possession tattoo", "salt", "iron bar", "religious relic", "ward", "devil's trap";
+FATE: "suffocate", "drown", "explode", "spontaneously combust", "disappear", "lose memories", "freeze", "dissolve", "liquify";
+IDENTITY: "FBI agent", "priest", "police officer", "hobo", "reporter";
 
 DISASTER: "the Apocalypse", "Ragnarok", "an earthquake", "a flood", "the end of the world", "the death of " ALLY, "a plague of " CREATURE > PLURALIZE;
-CONJUNCTION: ("meanwhile", "in " CITY, "nearby", "later", "in a flashback", "in a dream", "while on a hunt") ",";
-
 SECRET: "is a clone", "is possessed", "is drinking demon blood", "killed " ALLY;
+CONJUNCTION: ("between cases", "meanwhile", "in " CITY, "nearby", "later", "in a flashback", "in a dream", "while on a hunt") ",";
 
-// Swap out a full name every once in a while to liven things up.
-FULLNAME: 
+
+// Transformations
+FULLNAME:
   "Sam" % "Sam Winchester"
   "Dean" % "Dean Winchester"
   "Bobby" % "Bobby Singer"
   "Kevin" % "Kevin Tram"
-  "Jody" % "Sheriff Mills"
   "Chuck" % "Chuck Shirley"
 ;
-
-// Might kill this later, but it's a handy helper.
-PREPEND-A-OR-AN:
-  /^([aeiouAEIOU].*)/an \1/
-  /^([^aeiouAEIOU].*)/a \1/
-;
-
-// Pluralizing succubusses is no picnic, my friends.
-PLURALIZE:
-  /(.*)wolf/\1wolve/
-  /(.*)y/\1ie/
-  /elf/elve/
-  /(.*[^s])/\1s/
-  /(.*)us/\1i/
-;
-
-CAPITALIZE:
-  /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/
-  /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/
-  /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/
-;
+PREPEND-A-OR-AN: /^([aeiouAEIOU].*)/an \1/ /^([^aeiouAEIOU].*)/a \1/;
+PLURALIZE: /(.*)wolf/\1wolve/ /(.*)y/\1ie/ /elf/elve/ /(.*[^s])/\1s/ /(.*)us/\1i/;
+CAPITALIZE: /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/ /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/ /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/;
