@@ -1,0 +1,119 @@
+#include "deities.rm"
+
+// A couple of different core plots pop up in Supernatural:
+// - Monster of the week episodes
+// - Lone wolf episodes, where one brother hunts alone
+// - Comic episodes, where the brothers are trapped in a zany fantasy world
+// - McGuffin episodes, where the brothers search for a relic, information, or an old friend
+// - Timebomb episodes, where the brothers must prevent a disaster
+
+// In addition, there are a couple of recurring sub-plots.
+// - Wars, where demons or angels battle each other
+// - Dark secrets, where one brother hides something from the other
+// - Revelations, where the brothers discover personal or family information
+
+
+EPISODE: (PLOT > CAPITALIZE) ". " (((CONJUNCTION " ")? SUBPLOT ".")  > CAPITALIZE)? "\n";
+
+PLOT: PLOT-MONSTER, PLOT-LONER, PLOT-COMIC, PLOT-MCGUFFIN, PLOT-TIMEBOMB;
+PLOT-MONSTER:
+  "monster of the week"
+;
+PLOT-LONER:
+  (B1 = BROTHER)
+  (B2 = B1 > OTHER-BROTHER)
+  "lone wolf plot"
+;
+PLOT-COMIC:
+  BROTHERS
+  (" are trapped in", " are transported to", " appear in", " wake up in") " " 
+  (
+    (
+      ("a soap opera", "a sitcom", "a police procedural", "a romantic comedy") " " 
+      ("universe", "world")
+      (" created by " TRICKSTER)?
+    ),
+    "the 1800s", "the old west", "the 1950s", "the distant past"
+  )
+  (
+    (", and their only hope for escape is " (MCGUFFIN, UNTRUSTWORTHY))?
+  )
+;
+PLOT-MCGUFFIN:
+  "find the mcguffin"
+;
+PLOT-TIMEBOMB:
+  "stop the disaster"
+;
+
+
+SUBPLOT: SUBPLOT-WAR, SUBPLOT-SECRET, SUBPLOT-REVELATION;
+SUBPLOT-WAR:
+  "creatures are fighting"
+;
+SUBPLOT-SECRET:
+  (B1 = BROTHER)
+  (B2 = (B1 > OTHER-BROTHER))
+  (B1 " voices his suspicions about " B2 " to " ALLY,
+  B1 " suspects " B2 " is hiding the truth")
+;
+SUBPLOT-REVELATION:
+  "they learn something"
+;
+
+
+// Here's the meat.
+
+BROTHER: "Sam", "Dean";
+OTHER-BROTHER:
+  "Sam" % "Dean"
+  "Dean" % "Sam"
+;
+BROTHERS: "Sam and Dean", "the Winchesters", "Dean and Sam";
+ALLY: "Castiel", "Bobby", "Charlie", "Chuck", "Becky", "Benny";
+HUNTER: "Garth", "Ellen", "Jo", "Ash", "Rufus", "Jody";
+UNTRUSTWORTHY: "Ruby", "Crowley", "Metatron", "Naomi";
+
+LOCATION-GENERIC: ("Biggerson's Restaurant", "small rural town", "diner", "elementary school", "office", "abandoned house", "grocery store", "mall", "neighborhood", "warehouse", "barbershop", "bar") > PREPEND-A-OR-AN;
+LOCATION-SPECIFIC: "the Impala", "Bobby's house", "the Bunker";
+CITY: "Lawrence, Kansas", "Chicago", "New York", "New Orleans", "San Jose", "Tijuana";
+
+BOSS: "Lucifer", "Azazel", "Raphael";
+ARCHANGEL: "Gabriel", "Raphael", "Michael";
+ANGEL: "Gabriel", "Uriel", "Zachariah", "Balthazar", "Naomi", "Metatron", "Ezekiel", "Malachi";
+DEMON: "Azazel", "Meg", "Ruby", "Lilith", "Samhain", "Alastair", "Crowley", "Abaddon";
+
+CREATURE: "Alpha", "banshee", "chupacabra", "changeling", "clown", "djinn", "doppleganger", "dragon", "elf", "fairy", "giant spider", "ghost", "ghoul", "golem", "gorilla-wolf", "hellhound", "kitsune", "khan worm", "sea monster", "leprechaun", "lamia", "okami", "poltergeist", "Reaper", "revenant", "rugaru", "shapeshifter", "spook", "skinwalker", "succubus", "unicorn", "vampire", "water spirit", "wendigo", "werewolf", "wraith", "zombie";
+CREATURE-NAMED: "the Tooth Fairy", "Mr. Hyde", "the Whore of Babylon", "Spring Heeled Jack", "Jack the Ripper", "Krampus", "Dracula", "Death";
+MCGUFFIN: "a journal", "the Colt";
+CLUE: "ectoplasm", "EMF reading", "spirit echoes", "mysterious footprint", "journal entry";
+
+DISASTER: "the Apocalypse", "Ragnarok", "an earthquake", "a flood", "the end of the world", "the death of " ALLY, "a plague of " CREATURE > PLURALIZE;
+CONJUNCTION: ("meanwhile", "in " CITY, "nearby", "later", "in a flashback", "in a dream") ",";
+
+FULLNAME: 
+  "Sam" % "Sam Winchester"
+  "Dean" % "Dean Winchester"
+  "Bobby" % "Bobby Singer"
+  "Kevin" % "Kevin Tram"
+  "Jody" % "Sheriff Mills"
+  "Chuck" % "Chuck Shirley"
+;
+
+PREPEND-A-OR-AN:
+  /^([aeiouAEIOU].*)/an \1/
+  /^([^aeiouAEIOU].*)/a \1/
+;
+
+PLURALIZE:
+  /(.*)wolf/\1wolves/
+  /(.*)us/\1i/
+  /(.*)y/\1ies/
+  /(.*)/\1s/
+;
+
+CAPITALIZE:
+  /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/
+  /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/
+  /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/
+;
