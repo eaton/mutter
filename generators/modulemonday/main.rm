@@ -26,7 +26,7 @@ DOMAIN-OBJECT: "taxonomy", "view", "block", "node", "entity", "menu", "breadcrum
 MODIFIER: "builder", "filter", "attach", "API", "advanced";
 BUG: "deletes every " DOMAIN-OBJECT " on the site";
 
-DRUPALURL[text]: LINK["http://drupal.org/project/example", text];
+DRUPALURL[text]: LINK["http://drupal.org/project/examples", text];
 
 // Misc. text stuff
 CAPITALIZE: /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/ /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/ /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/;
