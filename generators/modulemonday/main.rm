@@ -12,20 +12,41 @@ FULL-ARTICLE:
 
 
 // Article segment generators. These need work to add fluff-text.
-SUBHEAD: "A catchy summary of " MODULE;
-INTRO: "Anyone who's built a Drupal site is familiar with " PROBLEM ". That's what " DRUPALURL[MODULE] " solves.";
-USAGE: "Once you've installed " MODULE ", a number of additional options are added to standard node forms.";
-CAVEATS: MODULE " isn't perfect, though. For example, it sometimes " BUG (" and " BUG )? ".";
-THUMBSUP: "Despite those caveats, " DRUPALURL[MODULE] " is a great tool for developers and site-builders alike.";
+SUBHEAD:
+  "A catchy summary of " MODULE;
+
+INTRO:
+  "Anyone who's built a Drupal site is familiar with " PROBLEM ". That's what " DRUPALURL[MODULE] " solves."
+;
+
+USAGE:
+  "Once you've installed " MODULE ", a number of additional options are added to standard node forms."
+;
+
+CAVEATS:
+  MODULE " isn't perfect, though. For example, it sometimes " BUG (" and " BUG )? "."
+;
+
+THUMBSUP:
+  "Despite those caveats, " DRUPALURL[MODULE] " is a great tool for developers and site-builders alike."
+;
 
 
 // Utility chunks
-MODULENAME: (DOMAIN-OBJECT, DOMAIN-OBJECT > PLURALIZE) > CAPITALIZE " " MODIFIER > CAPITALIZE (" " MODIFIER > CAPITALIZE)?;
-PROBLEM: "managing breadcrumbs";
+MODULENAME:
+  (DOMAIN-OBJECT, DOMAIN-OBJECT > PLURALIZE) > CAPITALIZE " " MODIFIER > CAPITALIZE (" " MODIFIER > CAPITALIZE)?
+;
+
+PROBLEM:
+"managing breadcrumbs"
+;
+
+BUG:
+"deletes every " DOMAIN-OBJECT " on the site"
+;
+
 DOMAIN-OBJECT: "taxonomy", "view", "block", "node", "entity", "menu", "breadcrumb";
 MODIFIER: "builder", "filter", "attach", "API", "advanced";
-BUG: "deletes every " DOMAIN-OBJECT " on the site";
-
 DRUPALURL[text]: LINK["http://drupal.org/project/examples", text];
 
 // Misc. text stuff
