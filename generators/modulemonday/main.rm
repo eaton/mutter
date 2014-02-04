@@ -1,0 +1,32 @@
+// Generates reviews of Drupal Modules.
+
+#include "../util/markdown.rm"
+
+FULL-ARTICLE:
+  ($MODULE = MODULENAME)
+  H1[MODULE] BR H2[SUBHEAD] BR BR
+  INTRO BR BR IMG["http://placehold.it/600x400", MODULE "'s config form"] BR BR
+  USAGE BR BR IMG["http://placehold.it/600x400", MODULE " in action"] BR BR
+  CAVEATS BR BR THUMBSUP
+;
+
+
+// Article segment generators. These need work to add fluff-text.
+SUBHEAD: "A catchy summary of " MODULE;
+INTRO: "Anyone who's built a Drupal site is familiar with " PROBLEM ". That's what " MODULE " solves.";
+USAGE: "Once you've installed " MODULE ", a number of additional options are added to standard node forms.";
+CAVEATS: MODULE " isn't perfect, though. For example, it sometimes " BUG (" and " BUG )? ".";
+THUMBSUP: "Despite those caveats, " MODULE " is a great tool for developers and site-builders alike.";
+
+
+// Utility chunks
+MODULENAME: (DOMAIN-OBJECT, DOMAIN-OBJECT > PLURALIZE) > CAPITALIZE " " MODIFIER > CAPITALIZE (" " MODIFIER > CAPITALIZE)?;
+PROBLEM: "managing breadcrumbs";
+DOMAIN-OBJECT: "taxonomy", "view", "block", "node", "entity", "menu", "breadcrumb";
+MODIFIER: "builder", "filter", "attach", "API", "advanced";
+BUG: "deletes every " DOMAIN-OBJECT " on the site";
+
+
+// Misc. text stuff
+CAPITALIZE: /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/ /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/ /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/;
+PLURALIZE: /(.*)y/\1ie/ /(.*[^s])/\1s/;
