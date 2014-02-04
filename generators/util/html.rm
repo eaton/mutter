@@ -1,13 +1,15 @@
 // Markdown formatting helpers
 
-H1[text]: "<h1>" text "</h1>";
-H2[text]: "<h2>" text "</h2>";
-H3[text]: "<h3>" text "</h3>";
-LI[text]: "<li>" text "</li>;
-QUOTE[text]: "<blockquote>" text "</blockquote>";
+H1[text]: "<h1>" text "</h1>\n";
+H2[text]: "<h2>" text "</h2>\n";
+H3[text]: "<h3>" text "</h3>\n";
+LIST[text]: (xl = ("ol","ul")) "<"xl">\n" text "</"xl">\n";
+LI[text]: "<li>" text "</li>\n";
+QUOTE[text]: "<blockquote>" text "</blockquote>\n";
 IMG[url, title]: "<img src='" url "' title='" title "' />";
 LINK[url, text]: "<a href='" url "' title='" text "'>" text "</a>";
 EM[text]: "<em>" text "</em>";
 STRONG[text]: "<strong>" text "</strong>";
 STRIKE[text]: "<del>" text "</del>";
-BR: "<br />";
+P[text]: "<p>" text "</p>\n";
+BR: "<br />\n";

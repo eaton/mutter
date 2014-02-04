@@ -1,13 +1,13 @@
 // Generates reviews of Drupal Modules.
 
-#include "../util/markdown.rm"
+#include "../util/html.rm"
 
 FULL-ARTICLE:
   ($MODULE = MODULENAME)
-  H1[MODULE] BR H2[SUBHEAD] BR BR
-  INTRO BR BR IMG["http://placehold.it/600x400", MODULE "'s config form"] BR BR
-  USAGE BR BR IMG["http://placehold.it/600x400", MODULE " in action"] BR BR
-  CAVEATS BR BR THUMBSUP
+  H1[MODULE] H2[SUBHEAD]
+  P[INTRO] IMG["http://placehold.it/600x400", MODULE "'s config form"] BR
+  P[USAGE] IMG["http://placehold.it/600x400", MODULE " in action"] BR
+  P[CAVEATS] P[THUMBSUP]
 ;
 
 
