@@ -1,0 +1,13 @@
+// Markdown formatting helpers
+
+H1[text]: "# " text " #";
+H2[text]: "## " text " ##";
+H3[text]: "### " text " ###";
+LI[text]: "* " text;
+QUOTE[text]: "> " text;
+IMG[url, title]: "![" title "](" url ")";
+LINK[url, text]: "[" text "](" url ")";
+EM[text]: "*" text "*";
+STRONG[text]: "**" text "**";
+STRIKE[text]: "~" text "~";
+BR: "\n";
