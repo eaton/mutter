@@ -1,0 +1,16 @@
+{% extends "templates/page.html" %}
+
+{% block title %}Joe Shindelar Facts{% endblock %}
+{% block head %}
+<style>
+section.fact {
+  padding: 2em;
+  font-size: 4em;
+  line-height: 1.4em;
+  font-weight: bold;
+}
+</style>
+{{ parent() }}{% endblock %}
+
+{% block content %}
+<section class="fact">{{ output|raw }}</section>{% endblock %}
