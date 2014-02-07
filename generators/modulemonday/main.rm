@@ -1,8 +1,9 @@
 // Generates reviews of Drupal Modules.
-
+#include "../rmutt/eng.rm"
 #include "../util/html.rm"
 
 FULL-ARTICLE:
+  ($CATEGORY = DOMAIN-OBJECT)
   ($MODULE = MODULENAME)
   H1[MODULE] H2[SUBHEAD]
   P[INTRO] IMG["http://placehold.it/500x300", "the " MODULE " config form"] BR
@@ -13,10 +14,21 @@ FULL-ARTICLE:
 
 // Article segment generators. These need work to add fluff-text.
 SUBHEAD:
-  "A catchy summary of " MODULE;
+  ("improve", "fire up", "streamline", "stabilize", "back up") > CAPITALIZE (" your site's ", " your ") CATEGORY > PLURALIZE (" with one strange trick", " without the hassle", " in D8"),
+  ("keep", "prevent", "discourage") > CAPITALIZE" your " PERSON > PLURALIZE " from " eng.verb_trans_gerund " " CATEGORY > PLURALIZE
+;
 
 INTRO:
-  "Anyone who's built a Drupal site is familiar with " PROBLEM ". That's what " DRUPALURL[MODULE] " solves."
+  INTRO-SYMPATHY " " (INTRO-CLARIFY " ")? INTRO-PROMISE
+;
+INTRO-SYMPATHY:
+  "Anyone who's built a Drupal site is familiar with " PROBLEM ".",
+  "Drupal " ("6 includes", "7 includes", "8 will include") " impressive new features to simplify " PROBLEM (", but experienced " PERSON > PLURALIZE " sometimes need more")? "."
+;
+INTRO-CLARIFY:
+;
+INTRO-PROMISE:
+  "That's what " DRUPALURL[MODULE] " solves."
 ;
 
 USAGE:
@@ -34,21 +46,40 @@ THUMBSUP:
 
 // Utility chunks
 MODULENAME:
-  (DOMAIN-OBJECT, DOMAIN-OBJECT > PLURALIZE) > CAPITALIZE " " MODIFIER > CAPITALIZE (" " MODIFIER > CAPITALIZE)?
+  (CATEGORY, CATEGORY > PLURALIZE) > CAPITALIZE " " MODIFIER > CAPITALIZE (" " SUPERLATIVE > CAPITALIZE)?
 ;
 
 PROBLEM:
-"managing breadcrumbs"
+  "managing breadcrumbs"
 ;
 
 BUG:
-"deletes every " DOMAIN-OBJECT " on the site"
+  "deletes every " DOMAIN-OBJECT " on the site",
+  "white-screens the Module administration page",
+  "has a number of subtle security issues",
+  "fails to install properly",
+  "only works for User ID 1",
+  "outputs ASCII art of a pickle",
+  "breaks Drupal's page caching",
+  "overloads memory-constrained database servers with queries",
+  "contains hard-coded forms",
+  "bypasses FormAPI's validation system",
+  "sidesteps Drupal's localization functions",
+  "can't be uninstalled",
+  "dies on servers running PHP 5.4"
 ;
 
-DOMAIN-OBJECT: "taxonomy", "view", "block", "node", "entity", "menu", "breadcrumb";
-MODIFIER: "builder", "filter", "attach", "API", "advanced";
+PERSON: "visitor", "client", "editor", "hacker", "developer", "designer", "site builder", "boss", "stakeholder", "user";
+DOMAIN-OBJECT: "taxonomy", "view", "block", "node", "entity", "menu", "breadcrumb", "feature", "user", "form", "role", "template", "theme", "filter", "format", "state", "status";
+MODIFIER: "builder", "filter", "attach", "API", "export", "validation", "relation", "manager";
+SUPERLATIVE: "advanced", "plus", "enhancer", "ultra";
 DRUPALURL[text]: LINK["http://drupal.org/project/examples", text];
+
+
+ASSIST-VERB: "help", "let", "improve";
+PREVENT-VERB: "stop", "prevent", "avoid", "remove";
 
 // Misc. text stuff
 CAPITALIZE: /^a/A/ /^b/B/ /^c/C/ /^d/D/ /^e/E/ /^f/F/ /^g/G/ /^h/H/ /^i/I/ /^j/J/ /^k/K/ /^l/L/ /^m/M/ /^n/N/ /^o/O/ /^p/P/ /^q/Q/ /^r/R/ /^s/S/ /^t/T/ /^u/U/ /^v/V/ /^w/W/ /^x/X/ /^y/Y/ /^z/Z/;
-PLURALIZE: /(.*)y/\1ie/ /(.*[^s])/\1s/;
+PLURALIZE: /(.*)y/\1ie/ /(.*)us/\1use/ /(.*)ss/\1sse/ /(.*[^s])/\1s/;
+PREPEND-A-OR-AN: /^([aeiouAEIOU].*)/an \1/ /^([^aeiouAEIOU].*)/a \1/;
