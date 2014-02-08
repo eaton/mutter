@@ -32,7 +32,8 @@ posquest:
 "decipher" |
 "hide" |
 "rescue" |
-"recover";
+"recover" |
+"discover";
 
 negquest: 
 "stop" |
@@ -50,7 +51,9 @@ founder "'s ghost" |
 "Andy Brooks" |
 "Katrina" |
 "The great-great-great-great granddaughter of " founder |
-"Henry Parrish";
+"Henry Parrish" |
+"Jenny Irving" |
+"Zombie " founder;
 
 location: 
 "Purgatory" |
@@ -130,7 +133,11 @@ mcguffin:
 "sextant" |
 "walking stick" |
 "skull" |
-"portrait";
+"portrait" |
+"map of " location |
+"copy of the map of " location |
+"Icabod's eidetic memory" |
+"hidden writings";
 
 antagonist: 
 "King George" |
@@ -158,7 +165,8 @@ attack:
 "stalks" |
 "intimidates" |
 "kills" |
-"possesses";
+"possesses" |
+"bestows super-human powers upon";
 
 victim: 
 "the residents of " location |
