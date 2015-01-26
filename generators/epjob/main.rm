@@ -1,0 +1,72 @@
+// Generates random jobs for Eclipse Phase crews seeking work.
+#include "../rmutt/eng.rm"
+#include "../util/html.rm"
+
+OUTPUT:
+     (P[COMPILED]){2,8}
+;
+
+COMPILED: CLIENT JOB PAY DEADLINE? COMPLICATION?;
+
+
+JOB:
+    " " (JOB-AGGRO, JOB-SHIELD, JOB-MYSTERY, JOB-SKILL) "."
+;
+JOB-AGGRO:
+     ("needs someone to beat up an enemy")
+;
+JOB-SHIELD:
+     ("needs trustworthy escorts")
+;
+JOB-MYSTERY:
+     ("wants someone to look into something")
+;
+JOB-SKILL:
+     ("needs an expert")
+;
+JOB-SALVAGE:
+     ("has secured salvage rights to a thing")
+;
+
+
+CLIENT:
+     (FACTION, INDIVIDUAL, ANON) CLIENT-MOD?
+;
+FACTION:
+     ("A faction")
+;
+INDIVIDUAL:
+     ("A local")
+;
+ANON:
+     ("An anonymous source")
+;
+CLIENT-MOD: " " ("you don't recognize")
+;
+
+
+DEADLINE:
+    " " ("They need a response within the hour.")
+;
+
+
+PAY:
+    " " (PAY-REP, PAY-LOW, PAY-HIGH) "."
+;
+PAY-REP:
+     ("No pay is mentioned, but the account that posted it has an impressive reputation")
+;
+PAY-LOW:
+     ("They promise prompt payment, but don't mention how much")
+;
+PAY-HIGH:
+     ("They promise wealth beyond your wildest dreams")
+;
+
+
+
+
+
+COMPLICATION:
+    " " ("You suspect it might be a trap.")
+;
