@@ -3,6 +3,7 @@
 
 $script = <<SCRIPT
 apt-get update
+apt-get install -y avahi-daemon
 apt-get install -y curl subversion git make
 apt-get install -y apache2 php5 libapache2-mod-php5
 apt-get install -y flex bison libgmp3-dev
@@ -32,8 +33,9 @@ VAGRANTFILE_API_VERSION = "2"
 
 Vagrant.configure(VAGRANTFILE_API_VERSION) do |config|
 
-  config.vm.box = "precise32"
-  config.vm.network "private_network", ip: "192.168.50.4"
+  config.vm.box = "ubuntu/precise32"
+  config.vm.network "private_network", type: "dhcp"
+  config.vm.hostname = "mutter"
   config.vm.provision "shell", inline: $script
 
 end
